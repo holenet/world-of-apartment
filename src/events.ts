@@ -72,4 +72,66 @@ export const ALL_EVENT_CLASSES: Type<Event>[] = [
       return name.innerText.includes("🔥");
     }
   },
+  class extends Event {
+    iconEmoji = "🌊";
+    messageText = "지구 온난화로 인해 기록적인 홍수🌊가 발생했습니다! 빨리 물을 퍼 날라 이름을 지키세요!";
+    step: number;
+    _init(name: HTMLDivElement, info: Info) {
+      this.tickPeriod = 500;
+      this.step = 0;
+      const letters = getLetters(name);
+      if (letters.includes("🌊")) return;
+
+      const range = createRangeByLettersOffset(name, 0, 0);
+      range.insertNode(document.createTextNode("🌊"));
+    }
+    _tick(name: HTMLDivElement) {
+      this.step += 1;
+      if (this.step <= 10) {
+        const range = createRangeByLettersOffset(name, 0, 0);
+        range.insertNode(document.createTextNode("🌊"));
+      }
+
+      const swap = (i: number, j: number) => {
+        if (i > j) return swap(j, i);
+        const rightRange = createRangeByLettersOffset(name, j, j + 1);
+        const letter = rightRange.toString();
+        rightRange.deleteContents();
+        createRangeByLettersOffset(name, i, i).insertNode(document.createTextNode(letter));
+      };
+
+      let letters = getLetters(name);
+      let waveStack = 0;
+      for (let i = 0; i < letters.length; ++i) {
+        const curr = letters[i];
+        if (curr !== "🌊") {
+          waveStack = 0;
+          continue;
+        }
+        waveStack += 1;
+
+        const prev = letters[i - 1];
+        const hasPrev = prev && prev !== "🌊";
+
+        const next = letters[i + 1];
+        const hasNext = next && next !== "🌊";
+
+        if (hasPrev && hasNext && Math.random() <= 0.5) {
+          swap(i - 1, i + 1);
+        } else if (hasPrev && Math.random() <= 0.25) {
+          swap(i - 1, i);
+        } else if (hasNext && Math.random() <= 0.5 + 0.05 * waveStack) {
+          swap(i, i + 1);
+        } else if (!next && Math.random() <= 0.5) {
+          createRangeByLettersOffset(name, i, i + 1).deleteContents();
+        }
+      }
+    }
+    _shouldActivate(name: HTMLDivElement) {
+      return false;
+    }
+    _shouldDeactivate(name: HTMLDivElement) {
+      return !name.innerHTML.includes("🌊");
+    }
+  },
 ];
