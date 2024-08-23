@@ -15,7 +15,7 @@ export function RequirementMessageEntry({ message }: RequirementMessageProps) {
 
   return (
     <div
-      className={classnames("flex flex-row gap-2 items-start transition-all duration-500", {
+      className={classnames("flex flex-row gap-2 pb-3 items-start transition-all duration-500", {
         "opacity-0": !showUp,
         "translate-x-[30%]": !showUp,
         "translate-x-0": showUp,
@@ -47,7 +47,7 @@ export function EventMessageEntry({ message }: EventMessageProps) {
 
   return (
     <div
-      className={classnames("flex flex-row gap-3 items-start transition-all duration-500", {
+      className={classnames("flex flex-row gap-3 pb-3 items-start transition-all duration-500", {
         "opacity-40": !message.event.isActivated.value,
         "opacity-0": !showUp,
         "translate-x-[30%]": !showUp,
@@ -63,7 +63,7 @@ export function EventMessageEntry({ message }: EventMessageProps) {
           "outline-4 outline-red-400": message.event.isActivated.value,
         })}
       >
-        <span class="text-left float-left text-sm text-neutral-700 whitespace-pre">{message.text}</span>
+        <span class="text-left float-left text-sm text-neutral-700 whitespace-pre-wrap">{message.text}</span>
       </div>
     </div>
   );

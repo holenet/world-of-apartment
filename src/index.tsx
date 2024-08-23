@@ -79,6 +79,7 @@ function App() {
                   const m = messages.value[i] as RequirementMessage;
                   if (m.requirement?.isSatisfied.value === false) {
                     dstIndex = i;
+                    break;
                   }
                 }
                 messages.value.splice(dstIndex >= 0 && dstIndex !== srcIndex ? dstIndex : srcIndex, 0, message);
@@ -164,16 +165,16 @@ function App() {
 
   return (
     <div class="flex flex-col w-full h-full justify-center items-stretch">
-      <div class="p-12 flex gap-24 h-full">
-        <div class="basis-0 grow shrink h-full">
+      <div class="p-12 flex flex-col lg:flex-row gap-4 h-full">
+        <div class="basis-1/3 shrink-0 grow h-full">
           <div
             contentEditable="true"
-            class="border-2 w-full h-96 text-start px-2"
+            class="border-2 min-w-[256px] h-full text-start px-2"
             ref={nameRef}
             onInput={onInput}
           ></div>
         </div>
-        <div class="basis-0 grow shrink h-full">
+        <div class="basis-2/3 grow h-full">
           <MessageContainer messages={messages} />
         </div>
       </div>

@@ -29,6 +29,16 @@ export default function MessageContainer({ messages }: Props) {
     }, 1);
   });
 
+  const messagesLength = useComputed(() => messages.value.length);
+  const offsetsLength = useComputed(() => offsets.value.length);
+  useSignalEffect(() => {
+    const container = containerRef.current;
+    if (container && messagesLength.value >= offsetsLength.value) {
+      // new message created
+      setTimeout(() => container.scrollBy({ top: container.scrollHeight + 128, behavior: "smooth" }), 100);
+    }
+  });
+
   const recalculateOffsets = (_messages: Message[]) => {
     const container = containerRef.current;
     if (container) {
@@ -39,20 +49,22 @@ export default function MessageContainer({ messages }: Props) {
         const messageIndex = _messages.findIndex((m) => m.id === requirementIndex);
         heights[messageIndex] = d.getBoundingClientRect().height;
       }
-      const gap = 16;
+      const gap = 4;
       let y = 0;
       const _offsets = [0];
       for (let i = 0; i < _messages.length; ++i) {
         y += heights[i] + gap;
         _offsets.push(y);
       }
-      offsets.value = _offsets;
+      if (offsets.value.length !== _offsets.length || offsets.value.some((o, i) => o !== _offsets[i])) {
+        offsets.value = _offsets;
+      }
     }
   };
 
   return (
     <div
-      class="flex flex-col items-start gap-4 h-full shadow-md rounded-xl p-2 bg-white overflow-y-scroll overflow-x-hidden relative"
+      class="flex flex-col items-start gap-4 h-full shadow-md rounded-xl p-2 pb-24 bg-white overflow-y-scroll overflow-x-hidden relative min-w-[512px]"
       ref={containerRef}
     >
       {reorderedMessages.value.map((message) => (
