@@ -84,7 +84,7 @@ function KeyboardOmitContent({ message }: Props) {
                 <button
                   disabled={key === " "}
                   className={classNames(
-                    "rounded-sm shadow-sm w-8 h-10 flex flex-col items-center justify-between text-xs text-neutral-600 font-bold p-0.5 select-none",
+                    "rounded-sm shadow-sm w-4 h-6 sm:w-8 sm:h-10 flex flex-col items-center justify-between text-[6px] sm:text-xs text-neutral-600 font-bold p-[1px] sm:p-0.5 select-none",
                     {
                       "hover:bg-neutral-100": key !== " " && requirement.selectedKey.value !== key,
                       "hover:bg-neutral-200": key !== " " && requirement.selectedKey.value === key,

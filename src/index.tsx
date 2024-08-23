@@ -165,7 +165,7 @@ function App() {
 
   return (
     <div class="flex flex-col w-full h-full justify-center items-stretch">
-      <div class="p-12 flex flex-col lg:flex-row gap-4 h-full">
+      <div class="p-2 sm:p-8 md:p-12 flex flex-col lg:flex-row gap-4 h-full">
         <div class="basis-1/3 shrink-0 grow h-full">
           <div
             contentEditable="true"

@@ -64,7 +64,7 @@ export default function MessageContainer({ messages }: Props) {
 
   return (
     <div
-      class="flex flex-col items-start gap-4 h-full shadow-md rounded-xl p-2 pb-24 bg-white overflow-y-scroll overflow-x-hidden relative min-w-[512px]"
+      class="flex flex-col items-start gap-4 h-full shadow-md rounded-xl p-2 pb-24 bg-white overflow-y-scroll overflow-x-hidden relative min-w-[256px]"
       ref={containerRef}
     >
       {reorderedMessages.value.map((message) => (
