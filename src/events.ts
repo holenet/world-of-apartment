@@ -8,8 +8,11 @@ export const ALL_EVENT_CLASSES: Type<Event>[] = [
     _init(name: HTMLDivElement, info: Info) {
       this.tickPeriod = 2000;
       const letters = getLetters(name);
-      const i = randomChoice(Array.from({ length: letters.length + 1 }).map((_, i) => i));
-      const range = createRangeByLettersOffset(name, i, i);
+      if (letters.includes("🔥")) return;
+
+      const i = randomChoice(Array.from({ length: letters.length }).map((_, i) => i));
+      const range = createRangeByLettersOffset(name, i, i + 1);
+      range.deleteContents();
       range.insertNode(document.createTextNode("🔥🔥"));
     }
     _tick(name: HTMLDivElement) {
