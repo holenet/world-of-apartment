@@ -1,7 +1,7 @@
 import { signal } from "@preact/signals";
 import { JSX } from "preact";
 import { MutableRef } from "preact/hooks";
-import { TextContent } from "./requirements/TextContent";
+import { MarkdownTextContent } from "./requirements/MarkdownTextContent";
 
 export interface Type<T> extends Function {
   new (...args: any[]): T;
@@ -12,7 +12,7 @@ export type Info = { COMPLEX_NUMBER: number };
 export abstract class Requirement {
   messageText: string;
   isSatisfied = signal(false);
-  contentComponent: (props: { message: RequirementMessage }) => JSX.Element = TextContent;
+  contentComponent: (props: { message: RequirementMessage }) => JSX.Element = MarkdownTextContent;
   protected _onConditionUpdated: () => void;
   private timer: NodeJS.Timeout;
 

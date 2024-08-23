@@ -64,7 +64,7 @@ function App() {
                   ...messages.value,
                   {
                     ...message,
-                    text: randomChoice(ANITIATINGS) + " " + requirement.messageText,
+                    text: `**${randomChoice(ANITIATINGS)}** ${requirement.messageText}`,
                   },
                 ];
               }
