@@ -116,4 +116,19 @@ export const ALL_REQUIREMENT_CLASSES: Type<Requirement>[] = [
     }
   },
   KeyboardOmitRequirement,
+  class extends Requirement {
+    morseCode: string;
+    _init(info: Info) {
+      const MORSE_CODES = [
+        ["LOVEYOU", ".-..---...-.-.-----..-"],
+        ["SOS", "...---..."],
+      ];
+      const [p, m] = randomChoice(MORSE_CODES);
+      this.morseCode = m;
+      this.messageText = `제가 모스부호 장인인데요. ‘${p}’를 모스부호로 넣도록 하죠 (답:${m})`;
+    }
+    _checkSatisfied(name: HTMLDivElement) {
+      return name.innerText.replace(/\s/g, "").includes(this.morseCode);
+    }
+  },
 ];
