@@ -144,7 +144,7 @@ function App() {
       } as Message,
     ];
 
-    if (messages.value.length % 5 === 0) {
+    if (requirements.length % 5 === 0) {
       setTimeout(() => activateRandomEvent(), 2000);
     }
   };

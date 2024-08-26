@@ -6,7 +6,7 @@ export const ALL_EVENT_CLASSES: Type<Event>[] = [
     iconEmoji = "🔥";
     messageText = "아파트에 화재가 발생했습니다! 이름이 다 타기 전에 불씨🔥를 꺼뜨리세요!";
     _init(name: HTMLDivElement, info: Info) {
-      this.tickPeriod = 2000;
+      this.tickPeriod = 500;
       const letters = getLetters(name);
       if (letters.includes("🔥")) return;
 
@@ -35,7 +35,7 @@ export const ALL_EVENT_CLASSES: Type<Event>[] = [
           deleteIndicesSet.add(i + 1);
         }
 
-        const prob = hasNextFuel || hasPrevFuel ? 0 : 0.6;
+        const prob = hasNextFuel || hasPrevFuel ? 0 : 0.3;
         if (Math.random() <= prob) {
           deleteIndicesSet.add(i);
         }
