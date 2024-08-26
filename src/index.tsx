@@ -1,6 +1,6 @@
 import "./style.css";
 import Requirements from "@/assets/Requirements.csv?raw";
-import JugongNames from "@/assets/JugongNames.json?raw";
+import JugongNames from "@/assets/JugongNames.csv?raw";
 import { render } from "preact";
 import { useEffect, useRef } from "preact/hooks";
 import { batch, useSignal } from "@preact/signals";
@@ -18,10 +18,10 @@ const info: Info = { COMPLEX_NUMBER: 0, JUGONG_NAME: "주공", getRequirementMet
 const initInfo = () => {
   const requirements: RequirementMetadata[] = loadCSV(Requirements);
   const requirementsMap = requirements.reduce((a, x) => ({ ...a, [x.Code]: x }), {});
-  const JUGONG_NAMES = JSON.parse(JugongNames);
-  info.JUGONG_NAME = randomChoice(JUGONG_NAMES);
-  info.COMPLEX_NUMBER = ~~(100 + Math.random() * 3900);
   info.getRequirementMetadata = (code: string) => requirementsMap[code];
+
+  info.JUGONG_NAME = randomChoice(loadCSV(JugongNames).map((n) => n.Name));
+  info.COMPLEX_NUMBER = ~~(100 + Math.random() * 3900);
 
   for (let req of requirements) {
     const RequirementClass =

@@ -1,6 +1,6 @@
-import SubwayStationNames from "@/assets/SubwayStationNames.json?raw";
+import SubwayStationNames from "@/assets/SubwayStationNames.csv?raw";
 import { Info, Requirement, Type } from "../model";
-import { randomChoice } from "../utils";
+import { loadCSV, randomChoice } from "../utils";
 import { KeyboardOmitRequirement } from "./KeyboardOmit";
 
 export const ALL_REQUIREMENT_CLASSES: { [key: string]: Type<Requirement> } = {
@@ -101,8 +101,7 @@ export const ALL_REQUIREMENT_CLASSES: { [key: string]: Type<Requirement> } = {
   SUBWAY_STATION: class extends Requirement {
     subwayStationName: string;
     _init(info: Info) {
-      const SUBWAY_STATION_NAMES = JSON.parse(SubwayStationNames);
-      this.subwayStationName = randomChoice(SUBWAY_STATION_NAMES);
+      this.subwayStationName = randomChoice(loadCSV(SubwayStationNames).map((n) => n.Name));
       this._formatMessageText(this.subwayStationName);
     }
     _checkSatisfied(name: HTMLDivElement) {
