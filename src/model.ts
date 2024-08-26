@@ -7,7 +7,7 @@ export interface Type<T> extends Function {
   new (...args: any[]): T;
 }
 
-export type Info = { COMPLEX_NUMBER: number };
+export type Info = { COMPLEX_NUMBER: number; JUGONG_NAME: string };
 
 export abstract class Requirement {
   messageText: string;

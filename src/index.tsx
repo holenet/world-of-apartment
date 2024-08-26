@@ -1,6 +1,6 @@
-import { render } from "preact";
-
 import "./style.css";
+import JugongNames from "@/assets/JugongNames.json?raw";
+import { render } from "preact";
 import { useEffect, useRef } from "preact/hooks";
 import { batch, useSignal } from "@preact/signals";
 import { Message, Requirement, Event, Info, RequirementMessage, EventMessage } from "./model";
@@ -11,10 +11,12 @@ import { randomChoice } from "./utils";
 
 const requirements: Requirement[] = [];
 const events: Event[] = [];
-const info: Info = { COMPLEX_NUMBER: 0 };
+const info: Info = { COMPLEX_NUMBER: 0, JUGONG_NAME: "주공" };
 
 const initInfo = () => {
-  info.COMPLEX_NUMBER = ~~(1 + Math.random() * 3999);
+  const JUGONG_NAMES = JSON.parse(JugongNames);
+  info.COMPLEX_NUMBER = ~~(100 + Math.random() * 3900);
+  info.JUGONG_NAME = randomChoice(JUGONG_NAMES);
 };
 initInfo();
 
@@ -25,7 +27,7 @@ function App() {
   useEffect(() => {
     const name = nameRef.current;
     if (name) {
-      name.innerHTML = `<span>주공아파트${info.COMPLEX_NUMBER}단지</span>`;
+      name.innerHTML = `<span>${info.JUGONG_NAME}주공아파트${info.COMPLEX_NUMBER}단지</span>`;
       setTimeout(addNextRequirement, 100);
     }
 

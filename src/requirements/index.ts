@@ -1,4 +1,4 @@
-import subwayStations from "@/assets/subwayStations.json?raw";
+import SubwayStationNames from "@/assets/SubwayStationNames.json?raw";
 import { Info, Requirement, Type } from "../model";
 import { hasBadchimOnLast, randomChoice } from "../utils";
 import { KeyboardOmitRequirement } from "./KeyboardOmit";
@@ -105,7 +105,7 @@ export const ALL_REQUIREMENT_CLASSES: Type<Requirement>[] = [
   class extends Requirement {
     subwayStationName: string;
     _init(info: Info) {
-      const SUBWAY_STATION_NAMES = JSON.parse(subwayStations);
+      const SUBWAY_STATION_NAMES = JSON.parse(SubwayStationNames);
       this.subwayStationName = randomChoice(SUBWAY_STATION_NAMES);
       this.messageText = `우리 아파트 주변에 ${this.subwayStationName}역이 있잖아요, 그러니까 당연히 ${
         this.subwayStationName
