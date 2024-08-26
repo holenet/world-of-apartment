@@ -2,21 +2,36 @@ import { signal } from "@preact/signals";
 import { JSX } from "preact";
 import { MutableRef } from "preact/hooks";
 import { MarkdownTextContent } from "./requirements/MarkdownTextContent";
+import { formatText } from "./utils";
 
 export interface Type<T> extends Function {
   new (...args: any[]): T;
 }
 
-export type Info = { COMPLEX_NUMBER: number; JUGONG_NAME: string };
+export type RequirementMetadata = {
+  Code: string;
+  ProfileImage: string;
+  ProfileName: string;
+  Message: string;
+};
+
+export type Info = {
+  COMPLEX_NUMBER: number;
+  JUGONG_NAME: string;
+  getRequirementMetadata: (code: string) => RequirementMetadata | undefined;
+};
 
 export abstract class Requirement {
   messageText: string;
   isSatisfied = signal(false);
   contentComponent: (props: { message: RequirementMessage }) => JSX.Element = MarkdownTextContent;
   protected _onConditionUpdated: () => void;
-  private timer: NodeJS.Timeout;
+  protected _metadata: RequirementMetadata;
+  private _timer: NodeJS.Timeout;
 
-  constructor(info: Info, onConditionUpdated: () => void) {
+  constructor(info: Info, requirementMetadata: RequirementMetadata, onConditionUpdated: () => void) {
+    this.messageText = requirementMetadata.Message;
+    this._metadata = requirementMetadata;
     this._onConditionUpdated = onConditionUpdated;
     this._init(info);
   }
@@ -27,6 +42,10 @@ export abstract class Requirement {
     return false;
   }
 
+  protected _formatMessageText(...args: any[]) {
+    this.messageText = formatText(this._metadata.Message, ...args);
+  }
+
   updateSatisfied(name: HTMLDivElement) {
     const isSatisfied = this._checkSatisfied(name);
     this.isSatisfied.value = isSatisfied;
@@ -34,10 +53,10 @@ export abstract class Requirement {
   }
 
   setTimer(func: () => void, timeout: number) {
-    if (this.timer) {
-      clearTimeout(this.timer);
+    if (this._timer) {
+      clearTimeout(this._timer);
     }
-    this.timer = setTimeout(func, timeout);
+    this._timer = setTimeout(func, timeout);
   }
 }
 

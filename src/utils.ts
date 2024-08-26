@@ -122,3 +122,44 @@ export const deconstructHangulLetter = (hangulLetter: string) => {
 
   return [f[fn], s[sn], t[tn]];
 };
+
+export const formatText = (format: string, ...args: string[]) => {
+  let formatted = format;
+  const badchimVariationReplacer = (baseWord: string) => (match, p1, p2, offset, string) =>
+    hasBadchimOnLast(baseWord) ? p1 : p2;
+  for (let i = 0; i < args.length; ++i) {
+    const base = new RegExp("\\{" + i + "\\}", "g");
+    formatted = formatted.replace(base, args[i]);
+    const badchimVariation = new RegExp("\\{" + i + ":(.*)/(.*)\\}", "g");
+    formatted = formatted.replace(badchimVariation, badchimVariationReplacer(args[i]));
+  }
+  return formatted;
+};
+
+export const loadCSV = (rawText: string) => {
+  const parseCSV =
+    /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
+  const CSV2Array = (text: string) => {
+    const values = [];
+    text.replace(parseCSV, (m0, m1, m2, m3) => {
+      if (m1 !== undefined) values.push(m1.replace(/\\'/g, "'"));
+      else if (m2 !== undefined) values.push(m2.replace(/\\"/g, '"'));
+      else if (m3 !== undefined) values.push(m3);
+      return "";
+    });
+    if (/,\s*$/.test(text)) values.push("");
+    return values;
+  };
+  const lines = rawText.trim().split("\n");
+  const header = CSV2Array(lines[0].trim());
+  const result = [];
+  for (let line of lines.slice(1)) {
+    const values = CSV2Array(line.trim());
+    const dict = {};
+    for (let i = 0; i < header.length; ++i) {
+      dict[header[i]] = values[i].replace("\\n", "\n");
+    }
+    result.push(dict);
+  }
+  return result;
+};

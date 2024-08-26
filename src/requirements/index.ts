@@ -1,28 +1,26 @@
 import SubwayStationNames from "@/assets/SubwayStationNames.json?raw";
 import { Info, Requirement, Type } from "../model";
-import { hasBadchimOnLast, randomChoice } from "../utils";
+import { randomChoice } from "../utils";
 import { KeyboardOmitRequirement } from "./KeyboardOmit";
 
-export const ALL_REQUIREMENT_CLASSES: Type<Requirement>[] = [
-  class extends Requirement {
-    messageText = "아이참… 주공이라는 이름 붙어있음 집값 내려가는 거 몰라요? 주공부터 빼죠";
+export const ALL_REQUIREMENT_CLASSES: { [key: string]: Type<Requirement> } = {
+  REMOVE_JUGONG: class extends Requirement {
     _checkSatisfied(name: HTMLDivElement) {
       return !name.innerText.includes("주공");
     }
   },
-  class extends Requirement {
-    messageText = "글로벌 시대니까 영어로 일단 지어보죠?";
+  ENGLISH: class extends Requirement {
     _checkSatisfied(name: HTMLDivElement) {
       return /[a-zA-Z]/.test(name.innerText);
     }
   },
-  class extends Requirement {
+  ROMAN_DIGIT: class extends Requirement {
     complexNumber: number;
     romanNumber: string;
     _init(info: Info) {
       this.complexNumber = info.COMPLEX_NUMBER;
       this.romanNumber = this.convertToRoman(this.complexNumber);
-      this.messageText = `근데 ${this.complexNumber}단지니까 ${this.complexNumber}를 로마 숫자로 넣으면 어떨까요? (답:${this.romanNumber})`;
+      this._formatMessageText(this.complexNumber, this.romanNumber);
     }
     _checkSatisfied(name: HTMLDivElement) {
       return name.innerText.includes(this.romanNumber);
@@ -57,17 +55,17 @@ export const ALL_REQUIREMENT_CLASSES: Type<Requirement>[] = [
       return r;
     }
   },
-  class extends Requirement {
+  NAME_LENGTH: class extends Requirement {
     minLength: number;
     _init(info: Info) {
       this.minLength = 12 + ~~(Math.random() * 19);
-      this.messageText = `제가 유명한 무당분이랑 이야기 하고 왔는데요, 글자수가 ${this.minLength}글자는 넘어야 한다네요?`;
+      this._formatMessageText(this.minLength);
     }
     _checkSatisfied(name: HTMLDivElement) {
       return name.innerText.length >= this.minLength;
     }
   },
-  class extends Requirement {
+  TERRAIN: class extends Requirement {
     terrainName: string;
     _init(info: Info) {
       const TERRAIN_NAMES = [
@@ -94,29 +92,25 @@ export const ALL_REQUIREMENT_CLASSES: Type<Requirement>[] = [
         "화산",
       ];
       this.terrainName = randomChoice(TERRAIN_NAMES);
-      this.messageText = `저희 아파트 주변에 ‘${this.terrainName}’${
-        hasBadchimOnLast(this.terrainName) ? "이" : "가"
-      } 있잖아요, 이것도 이름에 넣죠?`;
+      this._formatMessageText(this.terrainName);
     }
     _checkSatisfied(name: HTMLDivElement) {
       return name.innerText.includes(this.terrainName);
     }
   },
-  class extends Requirement {
+  SUBWAY_STATION: class extends Requirement {
     subwayStationName: string;
     _init(info: Info) {
       const SUBWAY_STATION_NAMES = JSON.parse(SubwayStationNames);
       this.subwayStationName = randomChoice(SUBWAY_STATION_NAMES);
-      this.messageText = `우리 아파트 주변에 ${this.subwayStationName}역이 있잖아요, 그러니까 당연히 ${
-        this.subwayStationName
-      }${hasBadchimOnLast(this.subwayStationName) ? "이라는" : "라는"} 이름은 들어가야지요`;
+      this._formatMessageText(this.subwayStationName);
     }
     _checkSatisfied(name: HTMLDivElement) {
       return name.innerText.includes(this.subwayStationName);
     }
   },
-  KeyboardOmitRequirement,
-  class extends Requirement {
+  KEYBOARD_OMIT: KeyboardOmitRequirement,
+  MORSE_CODE: class extends Requirement {
     morseCode: string;
     _init(info: Info) {
       const MORSE_CODES = [
@@ -125,10 +119,10 @@ export const ALL_REQUIREMENT_CLASSES: Type<Requirement>[] = [
       ];
       const [p, m] = randomChoice(MORSE_CODES);
       this.morseCode = m;
-      this.messageText = `제가 모스부호 장인인데요. ‘${p}’를 모스부호로 넣도록 하죠 (답:${m})`;
+      this._formatMessageText(p, m);
     }
     _checkSatisfied(name: HTMLDivElement) {
       return name.innerText.replace(/\s/g, "").includes(this.morseCode);
     }
   },
-];
+};

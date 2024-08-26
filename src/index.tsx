@@ -1,22 +1,40 @@
 import "./style.css";
+import Requirements from "@/assets/Requirements.csv?raw";
 import JugongNames from "@/assets/JugongNames.json?raw";
 import { render } from "preact";
 import { useEffect, useRef } from "preact/hooks";
 import { batch, useSignal } from "@preact/signals";
-import { Message, Requirement, Event, Info, RequirementMessage, EventMessage } from "./model";
+import { Message, Requirement, Event, Info, RequirementMessage, EventMessage, RequirementMetadata } from "./model";
 import MessageContainer from "./MessageContainer";
 import { ALL_REQUIREMENT_CLASSES } from "./requirements";
 import { ALL_EVENT_CLASSES } from "./events";
-import { randomChoice } from "./utils";
+import { loadCSV, randomChoice } from "./utils";
 
+const requirementGenerator: ((...args: any[]) => Requirement)[] = [];
 const requirements: Requirement[] = [];
 const events: Event[] = [];
-const info: Info = { COMPLEX_NUMBER: 0, JUGONG_NAME: "주공" };
+const info: Info = { COMPLEX_NUMBER: 0, JUGONG_NAME: "주공", getRequirementMetadata: () => undefined };
 
 const initInfo = () => {
+  const requirements: RequirementMetadata[] = loadCSV(Requirements);
+  const requirementsMap = requirements.reduce((a, x) => ({ ...a, [x.Code]: x }), {});
   const JUGONG_NAMES = JSON.parse(JugongNames);
-  info.COMPLEX_NUMBER = ~~(100 + Math.random() * 3900);
   info.JUGONG_NAME = randomChoice(JUGONG_NAMES);
+  info.COMPLEX_NUMBER = ~~(100 + Math.random() * 3900);
+  info.getRequirementMetadata = (code: string) => requirementsMap[code];
+
+  for (let req of requirements) {
+    const RequirementClass =
+      ALL_REQUIREMENT_CLASSES[req.Code] ??
+      class extends Requirement {
+        _init(info: Info) {
+          this.messageText = `정의되지 않은 요구사항 코드(${req.Code})입니다.`;
+        }
+      };
+    requirementGenerator.push(
+      (onConditionUpdated) => new RequirementClass(info, info.getRequirementMetadata(req.Code), onConditionUpdated)
+    );
+  }
 };
 initInfo();
 
@@ -108,13 +126,12 @@ function App() {
 
   const addNextRequirement = () => {
     const nextIndex = requirements.length;
-    if (nextIndex >= ALL_REQUIREMENT_CLASSES.length) {
+    if (nextIndex >= requirementGenerator.length) {
       // TODO
       // setTimeout(() => alert("축: 아파트 이름 짓기 성공!"), 500);
       return;
     }
-    const RequirementClass = ALL_REQUIREMENT_CLASSES[nextIndex];
-    const requirement = new RequirementClass(info, onConditionUpdated);
+    const requirement = requirementGenerator[nextIndex](onConditionUpdated);
     requirements.push(requirement);
     messages.value = [
       ...messages.value,
