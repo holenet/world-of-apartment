@@ -10,6 +10,7 @@
   color: #222;
   background-color: #ffffff;
   --text-color: #222;
+  --link-color: rgb(59, 114, 232);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -38,10 +39,16 @@ body,
   overflow: hidden;
 }
 
+a {
+  text-decoration: underline;
+  color: var(--link-color);
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     color: #ccc;
     background-color: #1a1a1a;
     --text-color: #ccc;
+    --link-color: rgb(131, 170, 255);
   }
 }

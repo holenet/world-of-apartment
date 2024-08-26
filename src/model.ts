@@ -24,6 +24,7 @@ export type Info = {
 export abstract class Requirement {
   messageText: string;
   isSatisfied = signal(false);
+  hint: string;
   contentComponent: (props: { message: RequirementMessage }) => JSX.Element = MarkdownTextContent;
   protected _onConditionUpdated: () => void;
   protected _metadata: RequirementMetadata;

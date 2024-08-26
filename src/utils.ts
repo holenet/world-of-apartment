@@ -157,7 +157,8 @@ export const loadCSV = (rawText: string) => {
     const values = CSV2Array(line.trim());
     const dict = {};
     for (let i = 0; i < header.length; ++i) {
-      dict[header[i]] = values[i].replace("\\n", "\n");
+      const value = values[i].replace("\\n", "\n");
+      dict[header[i]] = value === "" || isNaN(+value) ? value : +value;
     }
     result.push(dict);
   }

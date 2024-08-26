@@ -1,4 +1,5 @@
 import SubwayStationNames from "@/assets/SubwayStationNames.csv?raw";
+import JoseonKings from "@/assets/JoseonKings.csv?raw";
 import { Info, Requirement, Type } from "../model";
 import { loadCSV, randomChoice } from "../utils";
 import { KeyboardOmitRequirement } from "./KeyboardOmit";
@@ -20,7 +21,8 @@ export const ALL_REQUIREMENT_CLASSES: { [key: string]: Type<Requirement> } = {
     _init(info: Info) {
       this.complexNumber = info.COMPLEX_NUMBER;
       this.romanNumber = this.convertToRoman(this.complexNumber);
-      this._formatMessageText(this.complexNumber, this.romanNumber);
+      this._formatMessageText(this.complexNumber);
+      this.hint = this.romanNumber;
     }
     _checkSatisfied(name: HTMLDivElement) {
       return name.innerText.includes(this.romanNumber);
@@ -118,10 +120,26 @@ export const ALL_REQUIREMENT_CLASSES: { [key: string]: Type<Requirement> } = {
       ];
       const [p, m] = randomChoice(MORSE_CODES);
       this.morseCode = m;
-      this._formatMessageText(p, m);
+      this._formatMessageText(p);
+      this.hint = m;
     }
     _checkSatisfied(name: HTMLDivElement) {
       return name.innerText.replace(/\s/g, "").includes(this.morseCode);
+    }
+  },
+  JOSEON_KING: class extends Requirement {
+    year: number;
+    templeName: string;
+    _init(info: Info) {
+      const joseonKings: { 재위시작: number; 재위끝: number; 묘호: string }[] = loadCSV(JoseonKings);
+      const king = randomChoice(joseonKings.filter((k) => k.재위시작 + 2 <= k.재위끝));
+      this.year = ~~(Math.random() * (king.재위끝 - king.재위시작 - 2)) + king.재위시작 + 1;
+      this.templeName = king.묘호;
+      this._formatMessageText(this.year);
+      this.hint = this.templeName;
+    }
+    _checkSatisfied(name: HTMLDivElement) {
+      return name.innerText.includes(this.templeName);
     }
   },
 };
