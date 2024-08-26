@@ -1,6 +1,6 @@
 import { useEffect, useState } from "preact/hooks";
 import classnames from "classnames";
-import { Message, RequirementMessage, EventMessage } from "./model";
+import { Message, RequirementMessage, EventMessage } from "../model";
 
 type RequirementMessageProps = {
   message: RequirementMessage;

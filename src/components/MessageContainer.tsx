@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "preact/hooks";
 import { Signal, useComputed, useSignal, useSignalEffect } from "@preact/signals";
-import { Message } from "./model";
+import { Message } from "../model";
 import { MessageEntry } from "./MessageEntry";
 
 type Props = {

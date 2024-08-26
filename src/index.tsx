@@ -5,10 +5,11 @@ import { render } from "preact";
 import { useEffect, useRef } from "preact/hooks";
 import { batch, useSignal } from "@preact/signals";
 import { Message, Requirement, Event, Info, RequirementMessage, EventMessage, RequirementMetadata } from "./model";
-import MessageContainer from "./MessageContainer";
+import MessageContainer from "./components/MessageContainer";
 import { ALL_REQUIREMENT_CLASSES } from "./requirements";
 import { ALL_EVENT_CLASSES } from "./events";
 import { loadCSV, randomChoice } from "./utils";
+import { Logo } from "./components/Logo";
 
 const requirementGenerator: ((...args: any[]) => Requirement)[] = [];
 const requirements: Requirement[] = [];
@@ -185,10 +186,13 @@ function App() {
   return (
     <div class="flex flex-col w-full h-full justify-center items-stretch">
       <div class="p-2 sm:p-8 md:p-12 flex flex-col lg:flex-row gap-4 h-full">
-        <div class="basis-1/3 shrink-0 grow h-full">
+        <div class="basis-1/3 shrink-0 grow h-full flex flex-col items-center gap-4">
+          <div class="max-w-48">
+            <Logo />
+          </div>
           <div
             contentEditable="true"
-            class="border-2 min-w-[256px] h-full text-start px-2"
+            class="border-2 min-w-[256px] h-full text-start px-2 grow w-full"
             ref={nameRef}
             onInput={onInput}
           ></div>
