@@ -1,12 +1,13 @@
 ﻿Code,ProfileImage,ProfileName,Message
-REMOVE_JUGONG,,,아이참… 주공이라는 이름 붙어있음 집값 내려가는 거 몰라요? 주공부터 빼죠
-ENGLISH,,,글로벌 시대니까 영어로 일단 지어보죠?
-ROMAN_DIGIT,,,근데 {0}단지니까 {0}를 로마 숫자로 넣으면 어떨까요?
-NAME_LENGTH,,,"제가 유명한 무당분이랑 이야기 하고 왔는데요, 글자수가 {0}글자는 넘어야 한다네요?"
-TERRAIN,,,"저희 아파트 주변에 ‘{0}’{0:이/가} 있잖아요, 이것도 이름에 넣죠?"
-SUBWAY_STATION,,,"우리 아파트 주변에 {0}역이 있잖아요, 그러니까 당연히 {0}{0:이라는/라는} 이름은 들어가야지요"
-KEYBOARD_OMIT,,,제가요… 꿈을 꿨는데요… 키보드 중에 자판 1개를 무조건 빼야 한대요… 아니면 집값이 떨어진대요…
-MORSE_CODE,,,제가 모스부호 장인인데요. ‘{0}’를 모스부호로 넣도록 하죠
-JOSEON_KING,,,"저희 아파트의 전통을 살리죠? 아파트 이름에 저희 동네가 {0}년에 처음 조선왕조실록에 언급되잖아요, 그 해의 임금님 ‘[묘호](https://ko.wikipedia.org/wiki/%EB%AC%98%ED%98%B8)’가 들어가도록 하죠"
-LATIN,,,근데… 라틴어가 들어가면 좀 멋있을 것 같은데요? {0} 라는 뜻의 {1}{2:을/를} 포함하면 어떨까요?
-SPECIAL_CHARACTER,,,"아파트에 특색이 너무 없잖아요, 키보드에서 쓸 수 있는 특수문자가 좀 들어가면 좋겠는데요?"
+REMOVE_JUGONG,REMOVE_JUGONG.png,주공이,아이참… 주공이라는 이름 붙어있음 집값 내려가는 거 몰라요? 주공부터 빼죠
+TERRAIN,TERRAIN.png,풍수지리맨,"저희 아파트 주변에 ‘{0}’{0:이/가} 있잖아요, 이것도 이름에 넣죠?"
+LATIN,LATIN.png,환국,근데… 라틴어가 들어가면 좀 멋있을 것 같은데요? {0} 라는 뜻의 {1}{2:을/를} 포함하면 어떨까요?
+SUBWAY_STATION,SUBWAY_STATION.png,하철이,"우리 아파트 주변에 {0}역이 있잖아요, 그러니까 당연히 {0}{0:이라는/라는} 이름은 들어가야지요"
+ROMAN_DIGIT,ROMAN_DIGIT.png,로마니아,근데 {0}단지니까 {0}를 로마 숫자로 넣으면 어떨까요?
+ENGLISH,ENGLISH.png,잉글맨,"Hello? I'm english teacher, Please use english in our apartment name. What about {0}"
+JOSEON_KING,JOSEON_KING.png,태정태세문단세,"저희 아파트의 전통을 살리죠? 아파트 이름에 저희 동네가 {0}년에 처음 조선왕조실록에 언급되잖아요, 그 해의 임금님 ‘[묘호](https://ko.wikipedia.org/wiki/%EB%AC%98%ED%98%B8)’가 들어가도록 하죠"
+NAME_LENGTH,NAME_LENGTH.png,숭구리당당무당당,"제가 유명한 무당분이랑 이야기 하고 왔는데요, 글자수가 {0}글자는 넘어야 한다네요?"
+SPECIAL_CHARACTER,SPECIAL_CHARACTER.png,인스타걸,"아파트에 특색이 너무 없잖아요, 키보드에서 쓸 수 있는 특수문자가 좀 들어가면 좋겠는데요?"
+MORSE_CODE,MORSE_CODE.png,돈돈돈즈즈즈돈돈돈,제가 모스부호 장인인데요. ‘{0}’를 모스부호로 넣도록 하죠
+CAT_EMOJI,CAT_EMOJI.png,스트레이,저는 고양이를 사랑해요… 고양이 이모지 좀 넣어주세요…
+KEYBOARD_OMIT,KEYBOARD_OMIT.png,적축청축갈축흑축,제가요… 꿈을 꿨는데요… 키보드 중에 자판 1개를 무조건 빼야 한대요… 아니면 집값이 떨어진대요…
