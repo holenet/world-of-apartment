@@ -19,7 +19,7 @@ export const ALL_REQUIREMENT_CLASSES: { [key: string]: Type<Requirement> } = {
       this._formatMessageText(this.englishWord);
     }
     _checkSatisfied(name: HTMLDivElement) {
-      return name.innerText.includes(this.englishWord);
+      return name.innerText.toLowerCase().includes(this.englishWord.toLowerCase());
     }
   },
   ROMAN_DIGIT: class extends Requirement {
@@ -157,7 +157,17 @@ export const ALL_REQUIREMENT_CLASSES: { [key: string]: Type<Requirement> } = {
       this._formatMessageText(latin.한글, latin.라틴어, latin.발음);
     }
     _checkSatisfied(name: HTMLDivElement) {
-      return name.innerText.includes(this.latinWord);
+      return name.innerText.toLowerCase().includes(this.latinWord.toLowerCase());
+    }
+  },
+  SPECIAL_CHARACTER: class extends Requirement {
+    specialCharacters: string[];
+    _init(info: Info) {
+      this.specialCharacters = [..."~`!@#$%^&*()-_=+\\|]}[{'\";:/?.>,<"];
+      console.log("this.specialCharacters", this.specialCharacters);
+    }
+    _checkSatisfied(name: HTMLDivElement) {
+      return this.specialCharacters.some((c) => name.innerText.includes(c));
     }
   },
 };
