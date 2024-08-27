@@ -14,6 +14,7 @@ import { Logo } from "./components/Logo";
 const requirementGenerator: ((...args: any[]) => Requirement)[] = [];
 const requirements: Requirement[] = [];
 const events: Event[] = [];
+const eventCounter: number[] = [];
 const info: Info = { COMPLEX_NUMBER: 0, JUGONG_NAME: "주공", getRequirementMetadata: () => undefined };
 
 const initInfo = () => {
@@ -51,6 +52,7 @@ function App() {
     for (let EventClass of ALL_EVENT_CLASSES) {
       const event = new EventClass(nameRef, info, onConditionUpdated);
       events.push(event);
+      eventCounter.push(0);
     }
   };
 
@@ -145,7 +147,10 @@ function App() {
 
   const activateRandomEvent = () => {
     if (events.every((e) => e.isActivated.value)) return;
-    const event = randomChoice(events);
+    const minActivatedCount = Math.min(...eventCounter);
+    const eventIndex = randomChoice(events.map((_, i) => i).filter((i) => eventCounter[i] === minActivatedCount));
+    eventCounter[eventIndex]++;
+    const event = events[eventIndex];
     event.forceActivate();
     onEventActivated(event);
   };
