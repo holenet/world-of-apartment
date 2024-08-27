@@ -140,6 +140,8 @@ function App() {
       } as Message,
     ];
 
+    setTimeout(checkRequirements, 100);
+
     if (requirements.length % 5 === 0) {
       setTimeout(() => activateRandomEvent(), 2000);
     }
