@@ -1,6 +1,7 @@
 import SubwayStationNames from "@/assets/SubwayStationNames.csv?raw";
 import JoseonKings from "@/assets/JoseonKings.csv?raw";
 import LATIN from "@/assets/LATIN.csv?raw";
+import EnglishWord from "@/assets/EnglishWord.csv?raw";
 import { Info, Requirement, Type } from "../model";
 import { loadCSV, randomChoice } from "../utils";
 import { KeyboardOmitRequirement } from "./KeyboardOmit";
@@ -12,8 +13,13 @@ export const ALL_REQUIREMENT_CLASSES: { [key: string]: Type<Requirement> } = {
     }
   },
   ENGLISH: class extends Requirement {
+    englishWord: string;
+    _init(info: Info) {
+      this.englishWord = randomChoice(loadCSV(EnglishWord))["EnglishWord"];
+      this._formatMessageText(this.englishWord);
+    }
     _checkSatisfied(name: HTMLDivElement) {
-      return /[a-zA-Z]/.test(name.innerText);
+      return name.innerText.includes(this.englishWord);
     }
   },
   ROMAN_DIGIT: class extends Requirement {
