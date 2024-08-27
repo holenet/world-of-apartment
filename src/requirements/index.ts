@@ -1,5 +1,6 @@
 import SubwayStationNames from "@/assets/SubwayStationNames.csv?raw";
 import JoseonKings from "@/assets/JoseonKings.csv?raw";
+import LATIN from "@/assets/LATIN.csv?raw";
 import { Info, Requirement, Type } from "../model";
 import { loadCSV, randomChoice } from "../utils";
 import { KeyboardOmitRequirement } from "./KeyboardOmit";
@@ -142,6 +143,18 @@ export const ALL_REQUIREMENT_CLASSES: { [key: string]: Type<Requirement> } = {
       return name.innerText.includes(this.templeName);
     }
   },
+  LATIN: class extends Requirement {
+    latinWord: string;
+    _init(info: Info) {
+      const latin: { 한글: string; 라틴어: string; 발음: string } = randomChoice(loadCSV(LATIN));
+      this.latinWord = latin.라틴어;
+      this._formatMessageText(latin.한글, latin.라틴어, latin.발음);
+    }
+    _checkSatisfied(name: HTMLDivElement) {
+      return name.innerText.includes(this.latinWord);
+    }
+  },
+};
 
 export class NotImplementedRequirement extends Requirement {
   _init(info: Info) {
