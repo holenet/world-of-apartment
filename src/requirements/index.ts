@@ -2,6 +2,7 @@ import SubwayStationNames from "@/assets/SubwayStationNames.csv?raw";
 import JoseonKings from "@/assets/JoseonKings.csv?raw";
 import LATIN from "@/assets/LATIN.csv?raw";
 import EnglishWord from "@/assets/EnglishWord.csv?raw";
+import CatEmoji from "@/assets/CatEmoji.csv?raw";
 import { Info, Requirement, Type } from "../model";
 import { loadCSV, randomChoice } from "../utils";
 import { KeyboardOmitRequirement } from "./KeyboardOmit";
@@ -164,10 +165,18 @@ export const ALL_REQUIREMENT_CLASSES: { [key: string]: Type<Requirement> } = {
     specialCharacters: string[];
     _init(info: Info) {
       this.specialCharacters = [..."~`!@#$%^&*()-_=+\\|]}[{'\";:/?.>,<"];
-      console.log("this.specialCharacters", this.specialCharacters);
     }
     _checkSatisfied(name: HTMLDivElement) {
       return this.specialCharacters.some((c) => name.innerText.includes(c));
+    }
+  },
+  CAT_EMOJI: class extends Requirement {
+    catEmojiList: string[];
+    _init(info: Info) {
+      this.catEmojiList = loadCSV(CatEmoji).map((m) => m["CAT_EMOJI"]);
+    }
+    _checkSatisfied(name: HTMLDivElement) {
+      return this.catEmojiList.some((c) => name.innerText.includes(c));
     }
   },
 };
