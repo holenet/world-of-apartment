@@ -2,6 +2,8 @@ import { useEffect, useState } from "preact/hooks";
 import classnames from "classnames";
 import { Message, RequirementMessage, EventMessage } from "../model";
 
+const BASE_URL = import.meta.env.BASE_URL;
+
 type RequirementMessageProps = {
   message: RequirementMessage;
 };
@@ -21,16 +23,22 @@ export function RequirementMessageEntry({ message }: RequirementMessageProps) {
         "translate-x-0": showUp,
       })}
     >
-      <div class="w-12 h-12 bg-neutral-300 shadow-sm rounded-full text-white flex justify-center items-center text-4xl pb-1.5 font-bold select-none shrink-0">
-        ?
+      <div class="w-12 h-12 shadow-sm rounded-full text-white flex justify-center items-center text-4xl font-bold select-none shrink-0 overflow-hidden">
+        <img
+          class="w-full scale-125 translate-y-[10%]"
+          src={`${BASE_URL}profile_images/${message.requirement.metadata.ProfileImage}`}
+        />
       </div>
-      <div
-        className={classnames("shadow-sm mt-2 mr-4 px-3 py-1.5 rounded-lg transition-all", {
-          "bg-green-100": message.requirement.isSatisfied.value,
-          "bg-red-100": !message.requirement.isSatisfied.value,
-        })}
-      >
-        <ContentComponent message={message} />
+      <div class="flex flex-col items-start">
+        <div class="font-bold text-xs text-neutral-700">{message.requirement.metadata.ProfileName}</div>
+        <div
+          className={classnames("shadow-sm mt-1 mr-4 px-3 py-1.5 rounded-lg transition-all", {
+            "bg-green-100": message.requirement.isSatisfied.value,
+            "bg-red-100": !message.requirement.isSatisfied.value,
+          })}
+        >
+          <ContentComponent message={message} />
+        </div>
       </div>
     </div>
   );

@@ -25,14 +25,14 @@ export abstract class Requirement {
   messageText: string;
   isSatisfied = signal(false);
   hint: string;
+  metadata: RequirementMetadata;
   contentComponent: (props: { message: RequirementMessage }) => JSX.Element = MarkdownTextContent;
   protected _onConditionUpdated: () => void;
-  protected _metadata: RequirementMetadata;
   private _timer: NodeJS.Timeout;
 
   constructor(info: Info, requirementMetadata: RequirementMetadata, onConditionUpdated: () => void) {
     this.messageText = requirementMetadata.Message;
-    this._metadata = requirementMetadata;
+    this.metadata = requirementMetadata;
     this._onConditionUpdated = onConditionUpdated;
     this._init(info);
   }
@@ -44,7 +44,7 @@ export abstract class Requirement {
   }
 
   protected _formatMessageText(...args: any[]) {
-    this.messageText = formatText(this._metadata.Message, ...args);
+    this.messageText = formatText(this.metadata.Message, ...args);
   }
 
   updateSatisfied(name: HTMLDivElement) {
