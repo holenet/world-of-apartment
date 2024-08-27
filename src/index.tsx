@@ -6,7 +6,7 @@ import { useEffect, useRef } from "preact/hooks";
 import { batch, useSignal } from "@preact/signals";
 import { Message, Requirement, Event, Info, RequirementMessage, EventMessage, RequirementMetadata } from "./model";
 import MessageContainer from "./components/MessageContainer";
-import { ALL_REQUIREMENT_CLASSES } from "./requirements";
+import { ALL_REQUIREMENT_CLASSES, NotImplementedRequirement } from "./requirements";
 import { ALL_EVENT_CLASSES } from "./events";
 import { loadCSV, randomChoice } from "./utils";
 import { Logo } from "./components/Logo";
@@ -25,13 +25,7 @@ const initInfo = () => {
   info.COMPLEX_NUMBER = ~~(100 + Math.random() * 3900);
 
   for (let req of requirements) {
-    const RequirementClass =
-      ALL_REQUIREMENT_CLASSES[req.Code] ??
-      class extends Requirement {
-        _init(info: Info) {
-          this.messageText = `정의되지 않은 요구사항 코드(${req.Code})입니다.`;
-        }
-      };
+    const RequirementClass = ALL_REQUIREMENT_CLASSES[req.Code] ?? NotImplementedRequirement;
     requirementGenerator.push(
       (onConditionUpdated) => new RequirementClass(info, info.getRequirementMetadata(req.Code), onConditionUpdated)
     );

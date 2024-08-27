@@ -142,4 +142,13 @@ export const ALL_REQUIREMENT_CLASSES: { [key: string]: Type<Requirement> } = {
       return name.innerText.includes(this.templeName);
     }
   },
-};
+
+export class NotImplementedRequirement extends Requirement {
+  _init(info: Info) {
+    this.messageText = `정의되지 않은 요구사항 입니다. (Code: ${this._metadata.Code})\n자동으로 조건이 만족됩니다.\n~~${this._metadata.Message}~~`;
+    setTimeout(this._onConditionUpdated, 1000);
+  }
+  _checkSatisfied(name: HTMLDivElement) {
+    return true;
+  }
+}

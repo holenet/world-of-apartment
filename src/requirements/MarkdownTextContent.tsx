@@ -14,14 +14,13 @@ export function MarkdownTextContent({ message }: Props) {
   const containerRef = useRef<HTMLDivElement>();
 
   useEffect(() => {
-    containerRef.current.innerHTML = marked.parse(
-      message.text + (message.requirement.hint ? ` (힌트: "${message.requirement.hint}")` : ""),
-      {
+    containerRef.current.innerHTML = marked
+      .parse(message.text + (message.requirement.hint ? ` (힌트: "${message.requirement.hint}")` : ""), {
         async: false,
         renderer,
-      }
-    );
+      })
+      .trim();
   }, [message.text, message.requirement.hint]);
 
-  return <div class="text-left float-left text-sm text-neutral-700" ref={containerRef}></div>;
+  return <div class="text-left float-left text-sm text-neutral-700 whitespace-pre-wrap" ref={containerRef}></div>;
 }
