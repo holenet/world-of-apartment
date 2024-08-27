@@ -6,6 +6,7 @@ import CatEmoji from "@/assets/CatEmoji.csv?raw";
 import { Info, Requirement, Type } from "../model";
 import { loadCSV, randomChoice } from "../utils";
 import { KeyboardOmitRequirement } from "./KeyboardOmit";
+import { CursiveTextContent } from "./CursiveTextContent";
 
 export const ALL_REQUIREMENT_CLASSES: { [key: string]: Type<Requirement> } = {
   REMOVE_JUGONG: class extends Requirement {
@@ -15,6 +16,7 @@ export const ALL_REQUIREMENT_CLASSES: { [key: string]: Type<Requirement> } = {
   },
   ENGLISH: class extends Requirement {
     englishWord: string;
+    contentComponent = CursiveTextContent;
     _init(info: Info) {
       this.englishWord = randomChoice(loadCSV(EnglishWord))["EnglishWord"];
       this._formatMessageText(this.englishWord);
